@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>OTT Drop-Off Prediction</title>
+    <style>
+        body{
+            font-family: Arial;
+            background-image: url("{% static 'ott2.jpg' %}");
+            background-repeat: none;
+            background-size: cover;
+            background-repeat: no-repeat;
+            padding: 40px;
+        }
+
+        form{
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            width: 300px;
+            margin: auto;
+            border-radius: 8px;
+            margin-top: 180px;
+            border: 2px solid black;
+        }
+
+        input{
+            width: 90%;
+            margin-top: 10px;
+            padding: 8px;
+            border: 1px solid black;
+            border-radius: 13px;
+            transition: 0.2s ease-out;
+
+        }
+        input:hover::placeholder{
+            font-size: 11px;
+        }
+
+        input:hover{
+            padding: 12px;
+        }
+
+        button{
+            width: 70%;
+            margin-left: 34px;
+            margin-top: 20px;
+            padding: 8px;
+            border-radius: 13px;
+            background-color: black;
+            color: white;
+            border: none;
+            transition: 0.3s ease-in;
+        }
+
+        button:hover{
+            background-color: white;
+            color: black;
+            padding: 12px;
+        }
+
+        h2{
+            text-align: center;
+        }
+
+        .result{
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form method="POST">
+        {% csrf_token %}
+        <h2>Drop-Off Predictor</h2>
+
+        <input type="number" name="watch_percentage" placeholder="Watch Percentage" required>
+        <input type="number" name="episode_position" placeholder="Episode Position" required>
+        <input type="number" name="cognitive_load" placeholder="Cognitive Load" required>
+        <input type="number" name="pause_count" placeholder="Pause Count" required>
+        <input type="number" name="rewind_count" placeholder="Rewind Count" required>
+
+        <button type="submit">Predict</button>
+
+        {% if prediction %}
+        <div class="result">
+            Drop-Off Probability: {{ prediction|floatformat:2 }}
+        </div>
+        {% endif %}
+    </form>
+
+</body>
+
+</html>
