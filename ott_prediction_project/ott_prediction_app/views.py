@@ -1,11 +1,9 @@
 from django.shortcuts import render
-import joblib
 import numpy as np
-import os
+from ott_prediction_app.utils.model_loader import load_model
 
 
-model_path = os.path.join(os.path.dirname(__file__), "dropoff_model.pkl")
-model = joblib.load(model_path)
+model = load_model()
 
 def dropoff(request):
     prediction = None
@@ -17,9 +15,14 @@ def dropoff(request):
         pause_count = int(request.POST["pause_count"])
         rewind_count = int(request.POST["rewind_count"])
 
-        input_data = np.array([watch_percentage,episode_position,cognitive_load,pause_count,rewind_count]).reshape(1, -1)
+        input_data = np.array([
+            watch_percentage,
+            episode_position,
+            cognitive_load,
+            pause_count,
+            rewind_count
+        ]).reshape(1, -1)
 
         prediction = model.predict(input_data)[0]
 
     return render(request, "prediction.html", {"prediction": prediction})
-
