@@ -19,7 +19,7 @@ def dropoff(request):
         avg_watch_percentage = float(request.POST["avg_watch_percentage"])
         pause_count = int(request.POST["pause_count"])
         rewind_count = int(request.POST["rewind_count"])
-        skip_intro = int(request.POST["skip_intro"])  
+        skip_intro = int(request.POST["skip_intro"])
         cognitive_load = float(request.POST["cognitive_load"])
         drop_off_probability = float(request.POST["drop_off_probability"])
 
