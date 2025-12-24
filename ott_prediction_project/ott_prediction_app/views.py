@@ -10,8 +10,6 @@ MODEL_PATH = os.path.join(settings.BASE_DIR,"ott_prediction_app","retention_risk
 model = joblib.load(MODEL_PATH)
 
 def dropoff(request):
-    prediction = None
-
     if request.method == "POST":
         episode_duration_min = float(request.POST["episode_duration_min"])
         pacing_score = float(request.POST["pacing_score"])
@@ -35,9 +33,11 @@ def dropoff(request):
             drop_off_probability
         ]).reshape(1, -1)
 
-        prediction = model.predict(input_data)[0]
+        prediction_value = model.predict(input_data)[0]
 
         label_map = {0: "Low", 1: "Medium", 2: "High"}
-        prediction = label_map.get(prediction, prediction)
+        prediction = label_map.get(prediction_value, prediction_value)
 
-    return render(request, "prediction.html", {"prediction": prediction})
+        return render(request, "prediction.html", {"prediction": prediction})
+        
+    return render(request, "prediction.html")
